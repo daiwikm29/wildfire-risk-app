@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+venv/
+.venv/
+*.pkl
+*.joblib
+training_table.csv
+.env
+PROGRESS.md
+data/
