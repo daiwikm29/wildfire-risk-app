@@ -7,4 +7,3 @@ venv/
 training_table.csv
 .env
 PROGRESS.md
-data/
