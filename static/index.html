@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wildfire Risk Detection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <style>
+        body {background-color: #f0c6c6}
+        body {margin: 0;}
+        #layout {display: flex; height: 100vh;}
+        #map {flex: 1;}
+        #sidebar { width: 320px; overflow-y: auto; padding: 12px; order: -1;}
+    </style>
+</head>
+
+<body>
+    <div id="layout">
+    <div id="map"></div>
+    <div id="sidebar">
+    <h1>Wildfire Risk Detection</h1>
+    <p>Welcome to the Wildfire Risk Detection App!</p>
+    <p>Enter the Latitude and Longitude of the location you want to check, or find a location on the map and right click!</p>
+    <label for="latitude">Latitude:</label>
+    <input type="number" step="any" id="latitude">
+    <label for="longitude">Longitude:</label>
+    <input type="number" step="any" id="longitude">
+    <button id="Go">Check Risk</button>
+    <div id="result"></div>
+    <div id="weather"></div>
+    </div>
+    </div>
+    <script>
+        const map = L.map('map').setView([37.5, -119.5], 6);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+        async function lookupRisk() {
+            const latitude = document.getElementById('latitude').value;
+            const longitude = document.getElementById('longitude').value;
+
+            if (!latitude || !longitude) {
+                alert('Please enter both latitude and longitude.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/risk?lat=${latitude}&lon=${longitude}`);
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById('result').innerText = `Wildfire Risk: ${(data.risk * 100).toFixed(1)}%`;
+                    let word, color;
+                    if (data.risk < 0.10) {word = "Low"; color = "#5BDE7A";}
+                    else if (data.risk < 0.30) {word = "Moderate"; color = "#DCDE5b";}
+                    else {word = "High"; color = "#D42B2B";}
+                    document.getElementById('result').innerText += ` - ${word}`;
+                    document.getElementById('result').style.color = color;
+                    document.getElementById('weather').innerText = `
+                    Date: ${data.date}
+                    Max Temperature: ${data.weather.temperature_2m_max}°C
+                    Min Temperature: ${data.weather.temperature_2m_min}°C
+                    Humidity: ${data.weather.relative_humidity_2m_mean}%
+                    Wind Speed: ${data.weather.wind_speed_10m_max} km/h
+                    Rainfall: ${data.weather.precipitation_sum} mm
+                    `;
+                }   
+                else {
+                    document.getElementById('result').innerText = data.error;
+                    document.getElementById('result').style.color = "#555555";
+                    document.getElementById('weather').innerText = '';
+                }
+                } 
+            catch (error) {
+            console.error('Error:', error);
+            document.getElementById('result').innerText = 'Could not fetch data from server please try again later.';
+            document.getElementById('result').style.color = "#555555";
+            document.getElementById('weather').innerText = '';
+            }
+        }
+        document.getElementById('Go').addEventListener('click', lookupRisk);
+        map.on('contextmenu', function (e) {
+            const { lat, lng } = e.latlng;
+            document.getElementById('latitude').value = lat.toFixed(6);
+            document.getElementById('longitude').value = lng.toFixed(6);
+            lookupRisk();
+        });
+    </script>
+</body>
+
+</html>

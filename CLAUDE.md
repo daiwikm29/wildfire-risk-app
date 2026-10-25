@@ -22,32 +22,34 @@ required to comply.
 
 ## What Claude MAY do here
 - Explain concepts, libraries, errors, algorithms, stack traces, docs.
-- Review code I've already written: bugs, edge cases, better approaches — as
-  prose/pointers, not rewritten code.
+- Review code I've already written: bugs, edge cases, better approaches
+
 - Debug with me: ask questions, suggest what to print/log/check, explain *why*
-  something breaks. I write the fix.
+  something breaks.
 - Name a technique/concept to investigate when something underperforms (e.g. "look
-  at spatial cross-validation") and teach it — I implement it.
+  at spatial cross-validation") and teach it — I try to implement it.
 - Talk through architecture/design tradeoffs before I build something.
 - Quiz me on my own code so I can explain it to a judge.
 - Give feedback on drafts of the demo video script and submission answers (I write
   the draft first).
-- Read and write this repo's meta-docs directly: CLAUDE.md, SCOPE.md,
-  ai_usage_log.md, PROGRESS.md. Not the app itself.
+- Read and write these meta-docs directly: CLAUDE.md, SCOPE.md, PROGRESS.md.
+  Not the app itself, and not ai_usage_log.md (see below).
+- Read ai_usage_log.md, remind me at the end of a session that an entry is owed,
+  and tell me plainly what to put in the "Claude did" line — I write the entry.
 
 ## What Claude must NOT do here
 - Write or edit any .py/.js/.html/.css file in this repo — that's the app itself,
   and it's mine to write, line by line.
-- Generate a whole function, class, snippet, or file "to paste in," even a small
-  one, even as a "just this once" starting point.
-- Fix a bug by rewriting the broken file — point at what's wrong and why, I make
-  the edit.
-- Choose the model, hyperparameters, feature set, or architecture for me — explain
-  the tradeoffs, I decide.
+
+- Fix a bug by rewriting an entire file, you may explain errors and prrovide explantoins on how to fix it
+- 
 - Do the work and then explain it after the fact so it "counts" as mine. Explaining
   first, implementing second, always.
-- Write code inside a chat reply "just for reference" that ends up copy-pasted
-  wholesale.
+-
+- Write or edit entries in ai_usage_log.md. That log is my disclosure, in my words —
+  a judge asking about it under §7.3 is asking *me*, and an entry Claude wrote about
+  itself is worth less than one I wrote. Claude may report what it did this session;
+  I decide what goes in the file and type it.
 
 ## The standing self-check
 Can I explain every line of this file to a judge, right now, unscripted? If no,

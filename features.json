@@ -1,0 +1,13 @@
+[
+    "temperature_2m_max",
+    "temperature_2m_min",
+    "relative_humidity_2m_mean",
+    "wind_speed_10m_max",
+    "wind_gusts_10m_max",
+    "precipitation_sum",
+    "elevation",
+    "slope",
+    "aspect_sin",
+    "aspect_cos",
+    "historical_rate"
+]
